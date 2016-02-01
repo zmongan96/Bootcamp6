@@ -9,10 +9,12 @@ var listing = {
   address: '1545 W University Ave, Gainesville, FL 32603, United States'
 };
 
+var id;
+
 describe('Listing Schema Unit Tests', function() {
 
   before(function(done) {
-    mongoose.connect(config.test.db.uri);
+    mongoose.connect(config.db.uri);
     done();
   });
 
@@ -28,15 +30,17 @@ describe('Listing Schema Unit Tests', function() {
       new Listing({
         name: listing.name, 
         code: listing.code
-      }).save(function(err){
+      }).save(function(err, doc){
         should.not.exist(err);
+        id = doc._id;
         done();
       });
     });
 
     it('saves properly when all three properties provided', function(done){
-      new Listing(listing).save(function(err){
+      new Listing(listing).save(function(err, doc){
         should.not.exist(err);
+        id = doc._id;
         done();
       });
     });
@@ -62,6 +66,13 @@ describe('Listing Schema Unit Tests', function() {
   });
 
   afterEach(function(done) {
-    Listing.remove().exec(done);
+    if(id) {
+      Listing.remove({_id: id}, function(err){
+        id = null;
+        done();
+      });
+    } else {
+      done();
+    }
   });
 });
