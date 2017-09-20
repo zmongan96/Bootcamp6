@@ -6,7 +6,7 @@ angular.module('listings').factory('Listings', ['$http',
       },
 
       create: function(listing) {
-        return $http.post(window.location.origin + 'api/listings', listing);
+        return $http.post(window.location.origin + '/api/listings', listing);
       },
 
       read: function(id) {
