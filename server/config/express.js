@@ -1,15 +1,14 @@
-var path = require('path'),  
-    express = require('express'), 
+var path = require('path'),
+    express = require('express'),
     mongoose = require('mongoose'),
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
-    config = require('./config'),
     listingsRouter = require('../routes/listings.server.routes'), 
     getCoordinates = require('../controllers/coordinates.server.controller.js');
 
 module.exports.init = function() {
   //connect to database
-  mongoose.connect(config.db.uri);
+  mongoose.connect(cprocess.env.MONGOLAB_URI);
 
   //initialize app
   var app = express();
@@ -17,7 +16,7 @@ module.exports.init = function() {
   //enable request logging for development debugging
   app.use(morgan('dev'));
 
-  //body parsing middleware 
+  //body parsing middleware
   app.use(bodyParser.json());
 
   /* serve static files */
@@ -32,10 +31,10 @@ module.exports.init = function() {
     res.send(req.results);
   });
 
-  /* go to homepage for all routes not specified */ 
+  /* go to homepage for all routes not specified */
   app.all('/*', function(req, res) {
     res.sendFile(path.resolve('client/index.html'));
   });
 
   return app;
-};  
+};
