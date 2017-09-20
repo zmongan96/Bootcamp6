@@ -3,12 +3,12 @@ var path = require('path'),
     mongoose = require('mongoose'),
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
-    listingsRouter = require('../routes/listings.server.routes'), 
+    listingsRouter = require('../routes/listings.server.routes'),
     getCoordinates = require('../controllers/coordinates.server.controller.js');
 
 module.exports.init = function() {
   //connect to database
-  mongoose.connect(cprocess.env.MONGOLAB_URI);
+  mongoose.connect(process.env.MONGOLAB_URI);
 
   //initialize app
   var app = express();
